@@ -7,7 +7,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'vimwiki/vimwiki'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'vim-airline/vim-airline'
 Plugin 'flazz/vim-colorschemes'
@@ -46,10 +46,7 @@ set textwidth=79
 set cc=80
 color slate
 
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_python_binary_path = '/usr/bin/python3'
-autocmd FileType python set omnifunc=python3complete#Complete
+"autocmd FileType python set omnifunc=python3complete#Complete
 let NERDTreeIgnore=['\.pyc','\~$','\.swp', '__pycache__'] 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -64,7 +61,7 @@ map <F12> :exec "%!xxd -r"<CR>
 
 func! Run()
     if &filetype == 'python'
-        exec "!python3 %"
+        exec "!python %"
     endif
 
     if &filetype == 'sh'
@@ -74,6 +71,16 @@ endfunc
 
 func! Test()
     if &filetype == 'python'
-        exec '!python3 -m unittest %'
+        exec '!python -m unittest %'
     endif
 endfunc
+
+"python with virtualenv support
+python << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF

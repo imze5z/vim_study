@@ -4,30 +4,28 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin('~/.vim/bundle/')
 Plugin 'VundleVim/Vundle.vim'
-
 Plugin 'scrooloose/nerdtree'
 Plugin 'vimwiki/vimwiki'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'scrooloose/syntastic'
+Plugin 'google/yapf'
+Plugin 'w0rp/ale'
 Plugin 'vim-airline/vim-airline'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
 Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'pthrasher/conqueterm-vim'
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 syntax on
 set nu
-let python_highlight_all=1
+let python_highlight_all=1 
 set sw=4 ts=4 sts=4 expandtab
 set laststatus=2
 set showcmd
 set nobackup
-set cursorline
 set hls
 set noswapfile
 set ignorecase
@@ -37,6 +35,8 @@ set autoindent
 set cindent
 set linespace=0
 set ambiwidth=double
+set termguicolors
+hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
 
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
@@ -44,7 +44,7 @@ set fileencoding=utf-8
 let &termencoding=&encoding
 set textwidth=79
 set cc=80
-color slate
+color solarized
 
 "autocmd FileType python set omnifunc=python3complete#Complete
 let NERDTreeIgnore=['\.pyc','\~$','\.swp', '__pycache__'] 
@@ -56,8 +56,9 @@ map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>
 map <F5> :call Run()<CR>
 map <F6> :call Test()<CR>
-map <F11> :exec "%!xxd"<CR>
+map <F10> :exec "%!xxd"<CR>
 map <F12> :exec "%!xxd -r"<CR>
+autocmd FileType python nnoremap <LocalLeader>= :0,$!yapf<CR>
 
 func! Run()
     if &filetype == 'python'
@@ -74,6 +75,7 @@ func! Test()
         exec '!python -m unittest %'
     endif
 endfunc
+
 
 "python with virtualenv support
 python << EOF

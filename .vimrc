@@ -9,12 +9,14 @@ Plugin 'vimwiki/vimwiki'
 Plugin 'google/yapf'
 Plugin 'w0rp/ale'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'pthrasher/conqueterm-vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'iamcco/dict.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -45,12 +47,17 @@ let &termencoding=&encoding
 set textwidth=79
 set cc=80
 color solarized
+let g:airline_theme='alduin'
 
 "autocmd FileType python set omnifunc=python3complete#Complete
 let NERDTreeIgnore=['\.pyc','\~$','\.swp', '__pycache__'] 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>

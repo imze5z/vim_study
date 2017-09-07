@@ -13,7 +13,7 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'iamcco/dict.vim'
+Plugin 'asins/vimcdoc'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -31,7 +31,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set cc=80
-color default
+set go=m
+set t_Co=256
 
 autocmd FileType python set omnifunc=python3complete#Complete
 let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
@@ -39,10 +40,10 @@ nnoremap <C-]> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>
+autocmd FileType python nnoremap <F4> :0,$!yapf<CR>
 map <F5> :call Run()<CR>
 map <F10> :exec "%!xxd"<CR>
 map <F12> :exec "%!xxd -r"<CR>
-autocmd FileType python nnoremap <F4> :0,$!yapf<CR>
 
 func! Run()
     if &filetype == 'python'
